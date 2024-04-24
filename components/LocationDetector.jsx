@@ -4,13 +4,7 @@ import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
-const Detecting = () => {
-	return <Image src="/network.gif" width={200} height={200} alt="Network" />;
-};
-
-export default function LocationDetector() {
-	const [loading, setLoading] = useState(false);
-
+const Detecting = ({ setLoading }) => {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const router = useRouter();
@@ -28,18 +22,18 @@ export default function LocationDetector() {
 		}
 	}, [pathname, router, searchParams]);
 
+	return <Image src="/network.gif" width={200} height={200} alt="Network" />;
+};
+
+export default function LocationDetector() {
+	const [loading, setLoading] = useState(false);
+
 	return (
 		<div className="flex justify-center items-center min-h-screen">
 			{loading && (
-				<Suspense fallback={<Detecting />}>
+				<Suspense fallback={<p>Detecting....</p>}>
 					<div>
-						<Image
-							src="/network.gif"
-							width={500}
-							height={500}
-							alt="Loading.."
-							className="border rounded-md my-4"
-						/>
+						<Detecting setLoading={setLoading} />
 						<p>Loction Detecting.....</p>
 					</div>
 				</Suspense>
